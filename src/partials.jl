@@ -42,8 +42,8 @@ Base.IndexStyle(::Type{<:Partials}) = IndexLinear()
 
 @inline Base.rand(partials::Partials) = rand(typeof(partials))
 @inline Base.rand(::Type{Partials{N,V}}) where {N,V} = Partials{N,V}(rand_tuple(NTuple{N,V}))
-@inline Base.rand(rng::AbstractRNG, partials::Partials) = rand(rng, typeof(partials))
-@inline Base.rand(rng::AbstractRNG, ::Type{Partials{N,V}}) where {N,V} = Partials{N,V}(rand_tuple(rng, NTuple{N,V}))
+# @inline Base.rand(rng::AbstractRNG, partials::Partials) = rand(rng, typeof(partials))
+# @inline Base.rand(rng::AbstractRNG, ::Type{Partials{N,V}}) where {N,V} = Partials{N,V}(rand_tuple(rng, NTuple{N,V}))
 
 Base.isequal(a::Partials{N}, b::Partials{N}) where {N} = isequal(a.values, b.values)
 Base.:(==)(a::Partials{N}, b::Partials{N}) where {N} = a.values == b.values
@@ -159,7 +159,7 @@ end
 @inline iszero_tuple(::Tuple{}) = true
 @inline zero_tuple(::Type{Tuple{}}) = tuple()
 @inline one_tuple(::Type{Tuple{}}) = tuple()
-@inline rand_tuple(::AbstractRNG, ::Type{Tuple{}}) = tuple()
+# @inline rand_tuple(::AbstractRNG, ::Type{Tuple{}}) = tuple()
 @inline rand_tuple(::Type{Tuple{}}) = tuple()
 
 @generated function iszero_tuple(tup::NTuple{N,V}) where {N,V}
@@ -187,9 +187,9 @@ end
     end
 end
 
-@generated function rand_tuple(rng::AbstractRNG, ::Type{NTuple{N,V}}) where {N,V}
-    return tupexpr(i -> :(rand(rng, V)), N)
-end
+# @generated function rand_tuple(rng::AbstractRNG, ::Type{NTuple{N,V}}) where {N,V}
+#     return tupexpr(i -> :(rand(rng, V)), N)
+# end
 
 @generated function rand_tuple(::Type{NTuple{N,V}}) where {N,V}
     return tupexpr(i -> :(rand(V)), N)
